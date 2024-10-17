@@ -55,8 +55,8 @@ var params = {
     origin: "*"
 };
 
-function fetchImageUrl(fileName) {
-  var imageParams = {
+const fetchImageUrl = async (fileName) => {
+  const imageParams = {
       action: "query",
       titles: `File:${fileName}`,
       prop: "imageinfo",
@@ -65,72 +65,76 @@ function fetchImageUrl(fileName) {
       origin: "*"
   };
 
-  var url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
-  return fetch(url)
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function(data) {
-      var pages = data.query.pages;
-      var imageUrl = Object.values(pages)[0].imageinfo[0].url;
-      return imageUrl;
-    });
-}
+  const url = `${baseUrl}?${new URLSearchParams(imageParams).toString()}`;
+  
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const pages = data.query.pages;
+    const imageUrl = Object.values(pages)[0].imageinfo[0].url;
+    return imageUrl;
+  } catch (error) {
+    console.error("Error fetching image URL: ", error);
+    return 'placeholder-panda.jpg'; 
+  }
+};
+
 
 // Function to extract bear data from the wikitext
-function extractBears(wikitext) {
-  var speciesTables = wikitext.split('{{Species table/end}}');
-  var bears = [];
+const extractBears = async (wikitext) => {
+  const speciesTables = wikitext.split('{{Species table/end}}');
+  const bears = [];
 
-  speciesTables.forEach(function(table) {
-    var rows = table.split('{{Species table/row');
-    rows.forEach(function(row) {
-      var nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
-      var binomialMatch = row.match(/\|binomial=(.*?)\n/);
-      var imageMatch = row.match(/\|image=(.*?)\n/);
+  for (const table of speciesTables) {
+    const rows = table.split('{{Species table/row');
+    for (const row of rows) {
+      const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
+      const binomialMatch = row.match(/\|binomial=(.*?)\n/);
+      const imageMatch = row.match(/\|image=(.*?)\n/);
 
       if (nameMatch && binomialMatch && imageMatch) {
-        var fileName = imageMatch[1].trim().replace('File:', '');
+        const fileName = imageMatch[1].trim().replace('File:', '');
         
-        // Fetch the image URL and handle the bear data
-        fetchImageUrl(fileName).then(function(imageUrl) {
-          var bear = {
+        try {
+          const imageUrl = await fetchImageUrl(fileName);
+          const bear = {
             name: nameMatch[1],
             binomial: binomialMatch[1],
-            image: imageUrl,
+            image: imageUrl, 
             range: "TODO extract correct range"
           };
           bears.push(bear);
-
-          // Only update the UI after all bears are processed
-          if (bears.length === rows.length) {
-            var moreBearsSection = document.querySelector('.more_bears');
-            bears.forEach(function(bear) {
-              moreBearsSection.innerHTML += `
-                  <div>
-                      <h3>${bear.name} (${bear.binomial})</h3>
-                      <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
-                      <p><strong>Range:</strong> ${bear.range}</p>
-                  </div>
-              `;
-            });
-          }
-        });
+        } catch (error) {
+          console.error("Error fetching bear details: ", error)
+        }
       }
-    });
-  });
-}
+    }
+  }
 
-function getBearData() {
-  var url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
-  fetch(url)
-    .then(function(res) {
-      return res.json();
-    })
-    .then(function(data) {
-      var wikitext = data.parse.wikitext['*'];
-      extractBears(wikitext); // No need to handle promises here
-    });
+  // Update UI after processing all bears
+  const moreBearsSection = document.querySelector('.more_bears');
+  bears.forEach((bear) => {
+    moreBearsSection.innerHTML += `
+      <div>
+        <h3>${bear.name} (${bear.binomial})</h3>
+        <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+        <p><strong>Range:</strong> ${bear.range}</p>
+      </div>
+    `;
+  });     
+};
+
+const getBearData = async () => {
+  const url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
+  
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    const wikitext = data.parse.wikitext['*'];
+    extractBears(wikitext);
+  } catch(error) {
+    console.error("Error fetching bear data: ", error);
+  }
 }
 
 // Fetch and display the bear data
