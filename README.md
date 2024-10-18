@@ -126,7 +126,7 @@ if (showHideText === SHOW_COMMENTS) {
 ```
 
 - **No input validation or sanitation:**
-  - **Why it's bad:** There's no input validation or sanitization for user inputs (nameField and commentField) in the comment form. This leaves the application vulnerable to Cross-Site Scripting (XSS) attacks.
+  - **Why it's bad:** There's no input validation or sanitization for user inputs (`nameField` and `commentField`) in the comment form. This leaves the application vulnerable to Cross-Site Scripting (XSS) attacks.
   - **Fix:** Implement input sanitization and validation to strip or encode any malicious code before using the input in the DOM.
 ``` JS
 // Before
