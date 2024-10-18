@@ -91,6 +91,7 @@ const extractBears = async (wikitext) => {
       const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
       const binomialMatch = row.match(/\|binomial=(.*?)\n/);
       const imageMatch = row.match(/\|image=(.*?)\n/);
+      const rangeMatch = row.match(/\|range=([^|\(]*)/);
 
       if (nameMatch && binomialMatch && imageMatch) {
         const fileName = imageMatch[1].trim().replace('File:', '');
@@ -101,7 +102,7 @@ const extractBears = async (wikitext) => {
             name: nameMatch[1],
             binomial: binomialMatch[1],
             image: imageUrl, 
-            range: "TODO extract correct range"
+            range: rangeMatch[1].trim()
           };
           bears.push(bear);
         } catch (error) {
