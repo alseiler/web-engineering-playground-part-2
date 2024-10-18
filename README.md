@@ -56,9 +56,92 @@ Fix application code and answer the questions:
 
 >  **What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
 
-Present your findings here...
+- **Use of `var` instead of let/const:**
+  - **Why it's bad:** `var` has function-level scope, leading to potential hoisting and reassignment issues.
+  - **Fix:** Replaced `var` with `const` for constants.
 ``` JS
-console.log('Make use of markdown codesnippets to show and explain good/bad practices!')
+// Before
+export function toggleComments() {
+    var showHideBtn = document.querySelector('.show-hide');
+    var commentWrapper = document.querySelector('.comment-wrapper');
+
+// After
+export function toggleComments() {
+    const showHideBtn = document.querySelector('.show-hide');
+    const commentWrapper = document.querySelector('.comment-wrapper');
+```
+
+- **Direct DOM manipulation via innerHTML**
+  - **Why it's bad:** Can cause security issues (XSS) and performance overhead.
+  - **Fix:** Used `createElement` and `appendChild` for safer, more efficient DOM updates.
+``` JS
+// Before
+moreBearsSection.innerHTML += `
+  <div>
+    <h3>${bear.name} (${bear.binomial})</h3>
+    <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
+    <p><strong>Range:</strong> ${bear.range}</p>
+  </div>
+`;
+
+// After
+const bearDiv = document.createElement('div');
+const bearTitle = document.createElement('h3');
+bearTitle.textContent = `${bear.name} (${bear.binomial})`;
+
+const bearImg = document.createElement('img');
+bearImg.src = bear.image;
+bearImg.alt = bear.name;
+bearImg.style.width = '200px';
+
+const bearRange = document.createElement('p');
+bearRange.innerHTML = `<strong>Range:</strong> ${bear.range}`;
+
+bearDiv.appendChild(bearTitle);
+bearDiv.appendChild(bearImg);
+bearDiv.appendChild(bearRange);
+moreBearsSection.appendChild(bearDiv);
+```
+
+- **Magic strings and numbers:**
+  - **Why it's bad:** Hard to maintain and modify if values are scattered throughout the code.
+  - **Fix:** Extracted them into constants for easy future updates.
+``` JS
+// Before
+if (showHideText == 'Show comments') {
+  showHideBtn.textContent = 'Hide comments';
+} else {
+  showHideBtn.textContent = 'Show comments';
+}
+
+// After
+const SHOW_COMMENTS = 'Show comments';
+const HIDE_COMMENTS = 'Hide comments';
+
+if (showHideText === SHOW_COMMENTS) {
+  showHideBtn.textContent = HIDE_COMMENTS;
+} else {
+  showHideBtn.textContent = SHOW_COMMENTS;
+}
+```
+
+- **No input validation or sanitation:**
+  - **Why it's bad:** There's no input validation or sanitization for user inputs (nameField and commentField) in the comment form. This leaves the application vulnerable to Cross-Site Scripting (XSS) attacks.
+  - **Fix:** Implement input sanitization and validation to strip or encode any malicious code before using the input in the DOM.
+``` JS
+// Before
+const nameValue = nameField.value;
+const commentValue = commentField.value;
+
+// After
+const sanitizeInput = (input) => {
+  const div = document.createElement('div');
+  div.textContent = input;
+  return div.innerHTML;
+};
+
+const nameValue = sanitizeInput(nameField.value);
+const commentValue = sanitizeInput(commentField.value);
 ```
 
 

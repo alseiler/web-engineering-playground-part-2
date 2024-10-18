@@ -35,13 +35,24 @@ export async function extractBears(wikitext) {
   // Update UI after processing all bears
   const moreBearsSection = document.querySelector('.more_bears');
   bears.forEach((bear) => {
-    moreBearsSection.innerHTML += `
-      <div>
-        <h3>${bear.name} (${bear.binomial})</h3>
-        <img src="${bear.image}" alt="${bear.name}" style="width:200px; height:auto;">
-        <p><strong>Range:</strong> ${bear.range}</p>
-      </div>
-    `;
+    const bearDiv = document.createElement('div');
+
+    const bearTitle = document.createElement('h3');
+    bearTitle.textContent = `${bear.name} (${bear.binomial})`;
+
+    const bearImg = document.createElement('img');
+    bearImg.src = bear.image;
+    bearImg.alt = `${bear.name}`;
+    bearImg.style.width = '200px';
+
+    const bearRange = document.createElement('p');
+    bearRange.innerHTML = `<strong>Range:</strong> ${bear.range}`;
+
+    bearDiv.appendChild(bearTitle);
+    bearDiv.appendChild(bearImg);
+    bearDiv.appendChild(bearRange);
+
+    moreBearsSection.appendChild(bearDiv);
   });
 }
 
