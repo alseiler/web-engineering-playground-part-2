@@ -1,5 +1,3 @@
-// ui.js
-
 export function toggleComments() {
     const showHideBtn = document.querySelector('.show-hide');
     const commentWrapper = document.querySelector('.comment-wrapper');
