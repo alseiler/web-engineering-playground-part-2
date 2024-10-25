@@ -1,6 +1,6 @@
-// main.js
-import { toggleComments, addComment } from './ui.js';
-import { getBearData } from './bears.js';
+// main.ts
+import { toggleComments, addComment } from './ui';
+import { getBearData } from './bears';
 
 document.addEventListener('DOMContentLoaded', () => {
   toggleComments();
