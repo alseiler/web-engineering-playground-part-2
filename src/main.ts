@@ -5,5 +5,5 @@ import { getBearData } from './bears';
 document.addEventListener('DOMContentLoaded', () => {
   toggleComments();
   addComment();
-  getBearData();
+  void getBearData();
 });

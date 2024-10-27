@@ -2,19 +2,17 @@
 
 interface ImageInfo {
   url: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface Page {
   imageinfo: ImageInfo[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface QueryResult {
   query: {
-    pages: {
-      [key: string]: Page;
-    };
+    pages: Record<string, Page>;
   };
 }
 

@@ -1,17 +1,18 @@
 // ui.ts
 
 export function toggleComments(): void {
-  const showHideBtn = document.querySelector('.show-hide') as HTMLElement | null;
-  const commentWrapper = document.querySelector('.comment-wrapper') as HTMLElement | null;
+  const showHideBtn = document.querySelector<HTMLElement>('.show-hide');
+  const commentWrapper =
+    document.querySelector<HTMLElement>('.comment-wrapper');
 
   const HIDE_COMMENTS = 'Hide comments';
   const SHOW_COMMENTS = 'Show comments';
 
-  if (commentWrapper) {
+  if (commentWrapper != null) {
     commentWrapper.style.display = 'none';
   }
 
-  if (showHideBtn && commentWrapper) {
+  if (showHideBtn != null && commentWrapper != null) {
     showHideBtn.onclick = function () {
       const showHideText = showHideBtn.textContent;
       if (showHideText === 'Show comments') {
@@ -28,12 +29,17 @@ export function toggleComments(): void {
 }
 
 export function addComment(): void {
-  const form = document.querySelector('.comment-form') as HTMLFormElement | null;
-  const nameField = document.querySelector('#name') as HTMLInputElement | null;
-  const commentField = document.querySelector('#comment') as HTMLInputElement | null;
-  const list = document.querySelector('.comment-container') as HTMLElement | null;
+  const form = document.querySelector<HTMLFormElement>('.comment-form');
+  const nameField = document.querySelector<HTMLInputElement>('#name');
+  const commentField = document.querySelector<HTMLInputElement>('#comment');
+  const list = document.querySelector<HTMLElement>('.comment-container');
 
-  if (form && nameField && commentField && list) {
+  if (
+    form != null &&
+    nameField != null &&
+    commentField != null &&
+    list != null
+  ) {
     form.onsubmit = function (e: Event) {
       e.preventDefault();
       const listItem = document.createElement('li');

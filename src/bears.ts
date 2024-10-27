@@ -18,9 +18,9 @@ export async function extractBears(wikitext: string): Promise<void> {
       const nameMatch = row.match(/\|name=\[\[(.*?)\]\]/);
       const binomialMatch = row.match(/\|binomial=(.*?)\n/);
       const imageMatch = row.match(/\|image=(.*?)\n/);
-      const rangeMatch = row.match(/\|range=([^|\(]*)/);
+      const rangeMatch = row.match(/\|range=([^|(]*)/);
 
-      if (nameMatch && binomialMatch && imageMatch) {
+      if (nameMatch != null && binomialMatch != null && imageMatch != null) {
         const fileName = imageMatch[1].trim().replace('File:', '');
 
         try {
@@ -29,7 +29,7 @@ export async function extractBears(wikitext: string): Promise<void> {
             name: nameMatch[1],
             binomial: binomialMatch[1],
             image: imageUrl,
-            range: rangeMatch ? rangeMatch[1].trim() : 'Unknown',
+            range: rangeMatch != null ? rangeMatch[1].trim() : 'Unknown',
           };
           bears.push(bear);
         } catch (error) {
@@ -42,7 +42,7 @@ export async function extractBears(wikitext: string): Promise<void> {
   // Update UI after processing all bears
   const moreBearsSection = document.querySelector('.more_bears');
 
-  if (moreBearsSection) {
+  if (moreBearsSection != null) {
     bears.forEach((bear) => {
       const bearDiv = document.createElement('div');
 
@@ -68,6 +68,14 @@ export async function extractBears(wikitext: string): Promise<void> {
   }
 }
 
+interface WikitextData {
+  parse: {
+    wikitext: {
+      '*': string;
+    };
+  };
+}
+
 export async function getBearData(): Promise<void> {
   const baseUrl = 'https://en.wikipedia.org/w/api.php';
   const params = {
@@ -83,9 +91,9 @@ export async function getBearData(): Promise<void> {
 
   try {
     const res = await fetch(url);
-    const data = await res.json();
+    const data: WikitextData = await res.json();
     const wikitext = data.parse.wikitext['*'];
-    extractBears(wikitext);
+    void extractBears(wikitext);
   } catch (error) {
     console.error('Error fetching bear data: ', error);
   }
