@@ -1,6 +1,8 @@
+// vite.config.js
 export default {
-    root: '.',
-    build: {
-        outDir: 'dist',
-    }
-}
+  base: '/web-engineering-playground', // Replace with your repository name
+  root: '.',
+  build: {
+    outDir: 'dist',
+  },
+};
