@@ -12,9 +12,22 @@ describe('toggleComments', () => {
   });
 
   it('should display comments when "Show comments" is clicked', () => {
-    const showHideBtn = document.querySelector<HTMLElement>('.show-hide') as HTMLElement;
-    const commentWrapper = document.querySelector('.comment-wrapper') as HTMLElement;
+    const showHideBtn = document.querySelector('.show-hide');
+    const commentWrapper = document.querySelector('.comment-wrapper');
 
+    if (!(showHideBtn instanceof HTMLElement)) {
+      throw new Error(
+        "Element '.show-hide' not found or is not an HTMLElement"
+      );
+    }
+
+    if (!(commentWrapper instanceof HTMLElement)) {
+      throw new Error(
+        "Element '.comment-wrapper' not found or is not an HTMLElement"
+      );
+    }
+
+    // Now TypeScript knows that showHideBtn and commentWrapper are HTMLElements
     showHideBtn.click();
 
     expect(showHideBtn.textContent).toBe('Hide comments');
@@ -22,8 +35,20 @@ describe('toggleComments', () => {
   });
 
   it('should hide comments when "Hide comments" is clicked', () => {
-    const showHideBtn = document.querySelector('.show-hide') as HTMLElement;
-    const commentWrapper = document.querySelector('.comment-wrapper') as HTMLElement;
+    const showHideBtn = document.querySelector('.show-hide');
+    const commentWrapper = document.querySelector('.comment-wrapper');
+
+    if (!(showHideBtn instanceof HTMLElement)) {
+      throw new Error(
+        "Element '.show-hide' not found or is not an HTMLElement"
+      );
+    }
+
+    if (!(commentWrapper instanceof HTMLElement)) {
+      throw new Error(
+        "Element '.comment-wrapper' not found or is not an HTMLElement"
+      );
+    }
 
     // First click to show comments
     showHideBtn.click();
