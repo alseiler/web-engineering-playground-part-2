@@ -1,7 +1,8 @@
 // ui.ts
 
 export function toggleComments(): void {
-  const showHideBtn = document.querySelector<HTMLElement>('.show-hide');
+  const showHideBtn =
+    document.querySelector<HTMLButtonElement>('button.show-hide');
   const commentWrapper =
     document.querySelector<HTMLElement>('.comment-wrapper');
 

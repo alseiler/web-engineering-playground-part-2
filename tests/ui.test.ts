@@ -12,7 +12,8 @@ describe('toggleComments', () => {
   });
 
   it('should display comments when "Show comments" is clicked', () => {
-    const showHideBtn = document.querySelector('.show-hide');
+    const showHideBtn =
+      document.querySelector<HTMLButtonElement>('button.show-hide');
     const commentWrapper = document.querySelector('.comment-wrapper');
 
     if (!(showHideBtn instanceof HTMLElement)) {

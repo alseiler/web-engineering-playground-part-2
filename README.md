@@ -195,7 +195,20 @@ Apply the following ruleset for Prettier:
 
 >  **What improvements in your codebase were introduced by using TS instead of JS? Name at least 3 and explain why.**
 
-Present your findings here...
+**Type Safety and Early Error Detection:**
+- **Explanation:** TypeScript adds static typing to JavaScript, allowing to define types for variables, function parameters, and object properties.
+- **Benefit:** This helps catch type-related errors at compile time rather than at runtime, reducing bugs and making the code more robust.
+- **Example:** In `api.ts`, defined interfaces like `ImageInfo`, `Page`, and `QueryResult`, ensuring that the data structures from API responses match expected formats.
+
+**Enhanced Code Readability and Maintainability:**
+- **Explanation:** Explicit type annotations and interfaces make the code more self-documenting.
+- **Benefit:** Improves readability and makes it easier for developers to understand, maintain, and refactor the codebase.
+- **Example:** In `bears.ts`, defining the Bear interface clarifies what properties a bear object should have, helping with code comprehension.
+
+**Improved Developer Tooling and IntelliSense Support:**
+- **Explanation:** TypeScript provides better integration with IDEs, offering features like intelligent code completion, refactoring tools, and error highlighting.
+- **Benefit:** Increases developer productivity and reduces the likelihood of errors.
+- **Example:** When using `document.querySelector<HTMLElement>`, the editor can provide accurate suggestions and type checks based on the specified element type.
 
 ## 3.	CI/CD Pipeline Playground (5 Pts.)
 Implementation of a CI/CD pipeline to automate the development and deployment process – write automated tests.
@@ -220,41 +233,202 @@ Use the tools presented in our accessibility workshop to test the accessibility 
 
 Test the current color contrast (text/background), report the results of the test, and then fix them by changing the assigned colors.
 
-*Present your reports here.*
+**Findings:**
+The color contrast of the text against the background has been checked using the WebAIM Contrast Checker. Among others, the following issues were identified:
+- Body/Header Text and Body/Header Background Text Color: Contrast ratio of 2.79:1, which fails all the WCAG criteria, since it is below the minimum for small and medium text.
+- Title Text Color on Background: Contrast ratio of 1.34:1, below the recommended minimum contrast ratio of 3:1 for large text.
+
+**Fixes Implemented:**
+- Body/Header Text and Body/Header Background Text Color: Changed text color to #444, increasing the contrast ratio to 12.13:1.
+- Title Text Color on Background: Updated link color to #900, increasing the contrast ratio to 10.69:1.
 
 **(0.5) Semantic HTML**
 
 Report on what happens when you try to navigate the page using a screen reader. Fix those navigation issues.
 
-*Present your reports here.*
+**Findings:**
+- Lack of Semantic Elements: The page used `<div>` and `<font>` tags instead of semantic HTML5 elements, making it difficult for screen readers to interpret the structure.
+- Improper Heading Structure: Headings were not properly nested, and heading levels were skipped, confusing users who rely on headings for navigation.
+- Non-Descriptive ARIA Roles: Missing or incorrect ARIA roles hindered effective navigation for assistive technologies.
+
+**Fixes Implemented:**
+- Semantic Elements: Replaced generic elements with semantic HTML5 elements such as `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, and `<footer>`.
+- Proper Heading Hierarchy: Ensured headings follow a logical order using `<h1>`, `<h2>`, and `<h3>` tags.
+- Improved Navigation: Updated interactive elements to use appropriate tags (e.g., changed the comments toggle from a `<div>` to a `<button>`).
+
+**Example Updates:**
+``` html
+<!-- Changed from -->
+<div class="header">
+  <font size="7">Welcome to our wildlife website</font>
+</div>
+
+<!-- Changed to -->
+<header>
+  <h1>Welcome to our wildlife website</h1>
+</header>
+```
 
 **(0.5) Audio** 
 
 The ``<audio>`` player isn't accessible to hearing impaired (deaf) people — can you add some kind of accessible alternative for these users?
 
-*Present your findings and fixes here.*
+**Findings and Fixes:**
+- **Issue:** The `<audio>` player lacked an accessible alternative for users who are deaf or hard of hearing.
+- **Solution:** Added a text transcript of the audio content directly below the `<audio>` element, enclosed in a `<div class="audio-transcript">`.
+
+**Implementation:**
+``` html
+<audio controls>
+  <source src="media/bear.mp3" type="audio/mp3">
+  <source src="media/bear.ogg" type="audio/ogg">
+  <p>Your browser doesn't support HTML5 audio players.</p>
+</audio>
+
+<div class="audio-transcript">
+  <h3>Audio Transcript</h3>
+  <p>
+    [Insert detailed transcript of the audio content here.]
+  </p>
+</div>
+```
 
 **(1) Forms** 
   * The ``<input>`` element in the search form at the top could do with a label, but we don't want to add a visible text label that would potentially spoil the design and isn't really needed by sighted users. Fix this issue by adding a label that is only accessible to screen readers.
   * The two ``<input>`` elements in the comment form have visible text labels, but they are not unambiguously associated with their labels — how do you achieve this? Note that you'll need to update some of the CSS rule as well.
 
-*Present your findings and fixes here.*
+**Findings:**
+- The search input lacked an associated label, making it inaccessible to screen reader users.
+- Labels were present but not properly associated with their corresponding input fields.
+
+Fixes Implemented:
+- Added a visually hidden `<label>` using the `class="visually-hidden"` and associated it with the input using `for` and `id` attributes.
+- Added `id` attributes to `<input>` elements and associated them with their `<label>` elements using the `for` attribute.
+- Introduced a `.visually-hidden` class to hide elements visually while keeping them accessible to screen readers.
+
+**Example Updates:**
+``` html
+<!-- Search Form -->
+<form class="search">
+  <label for="search" class="visually-hidden">Search</label>
+  <input type="search" name="q" id="search" placeholder="Search query">
+  <input type="submit" value="Go!">
+</form>
+
+<!-- Comment Form -->
+<form class="comment-form">
+  <div class="flex-pair">
+    <label for="name">Your name:</label>
+    <input type="text" name="name" id="name" placeholder="Enter your name">
+  </div>
+  <div class="flex-pair">
+    <label for="comment">Your comment:</label>
+    <input type="text" name="comment" id="comment" placeholder="Enter your comment">
+  </div>
+  <div>
+    <input type="submit" value="Submit comment">
+  </div>
+</form>
+```
+
+``` css
+.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+```
 
 **(0.5) Comment section**
 
 The show/hide comment control button is not currently keyboard-accessible. Can you make it keyboard accessible, both in terms of focusing it using the tab key, and activating it using the return key?
 
-*Present your findings and fixes here.*
+**Findings:**
+- Issue: The show/hide comments control was a `<div>` element, which is not focusable or operable via keyboard.
+- Impact: Users navigating via keyboard could not access or activate the comments toggle.
+
+**Fixes Implemented:**
+- Changed Element: Replaced the `<div class="show-hide">` with a `<button class="show-hide">` to make it natively keyboard-accessible.
+  
+**Example Update:**
+``` html
+<!-- Changed from -->
+<div class="show-hide">Show comments</div>
+
+<!-- Changed to -->
+<button class="show-hide">Show comments</button>
+```
 
 **(1) The table**
 
 The data table is not currently very accessible — it is hard for screen reader users to associate data rows and columns together, and the table also has no kind of summary to make it clear what it shows. Can you add some features to your HTML to fix this problem?
 
-*Present your findings and fixes here.*
+**Findings:**
+- The table lacked a `<caption>`, making it unclear what data it presented.
+- Missing structural elements like `<thead>`, `<tbody>`, and proper use of `<th>` and `<td>` tags.
+- No scope attributes to associate header cells with data cells.
+
+**Fixes Implemented:**
+- Added `<caption>` to provide a summary of the table's content.
+- Used `<thead>` and `<tbody>` to define the table's header and body sections.
+- Applied `<th>` elements for headers with appropriate scope attributes.
+
+**Example Update:**
+``` html
+<table>
+  <caption>Bear Types and Characteristics</caption>
+  <thead>
+    <tr>
+      <th scope="col">Bear Type</th>
+      <th scope="col">Coat</th>
+      <th scope="col">Adult size</th>
+      <th scope="col">Habitat</th>
+      <th scope="col">Lifespan</th>
+      <th scope="col">Diet</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Wild</th>
+      <td>Brown or black</td>
+      <td>1.4 to 2.8 meters</td>
+      <td>Woods and forests</td>
+      <td>25 to 28 years</td>
+      <td>Fish, meat, plants</td>
+    </tr>
+    <!-- Additional rows -->
+  </tbody>
+</table>
+```
 
 **(1) More Findings**
 
-What other accessibility issues did you find? Explain how you did fix them.
+**Images Missing alt Attributes:**
+- **Issue:** Images lacked alt text, making them inaccessible to users relying on screen readers.
+- **Fix:** Added descriptive alt attributes to all `<img>` elements.
+
+``` html
+<img src="media/wild-bear.jpg" alt="A wild bear in its natural habitat">
+```
+
+**Non-Descriptive Link Text:**
+- **Issue:** Some links used non-descriptive text like "Click here".
+- **Fix:** Updated links to have descriptive text that conveys context.
+
+``` html
+<!-- Changed from -->
+<a href="bears.html">Read more</a>
+
+<!-- Changed to -->
+<a href="bears.html">Learn more about bear species</a>
+```
+
+<img src="media/WAVE_report.png" alt="WAVE report showing 0 errors, 0 contrast errors, 6 alerts and 9 features" width="200"/>
+
+The image above depicts the report generated by the WAVE extension, showing that all errors have been solved. The presence of six alerts is a bit contradictory, since these alerts tell us that there are redundant alternative texts, which are also shown as Features.
 
 # Extended Coding Playgrounds
 Please create a new independent Repository for these playgrounds and submit a link to it in the Moodle submission. 
