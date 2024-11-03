@@ -36,7 +36,7 @@ describe('toggleComments', () => {
   });
 
   it('should hide comments when "Hide comments" is clicked', () => {
-    const showHideBtn = document.querySelector('.show-hide');
+    const showHideBtn = document.querySelector('button.show-hide');
     const commentWrapper = document.querySelector('.comment-wrapper');
 
     if (!(showHideBtn instanceof HTMLElement)) {
