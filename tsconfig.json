@@ -9,6 +9,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "backend/src/**/*", "vite.config.*", "vitest.config.*"],
   "exclude": ["node_modules", "dist"]
 }

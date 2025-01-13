@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}'",
-    "lint:fix": "eslint 'src/**/*.{js,ts,tsx}' --fix",
-    "format": "prettier --write 'src/**/*.{js,ts,tsx,html,css}'",
-    "format:check": "prettier --check 'src/**/*.{js,ts,tsx,html,css}'",
+    "lint": "eslint src/**/*.{js,ts,tsx} backend/**/*.{js,ts,tsx}",
+    "lint:fix": "eslint src/**/*.{js,ts,tsx} backend/**/*.{js,ts,tsx} --fix",
+    "format": "prettier --write src/**/*.{js,ts,tsx,html,css}",
+    "format:check": "prettier --check src/**/*.{js,ts,tsx,html,css}",
     "prepare": "husky",
     "test": "vitest",
     "test:coverage": "vitest --coverage"
@@ -39,7 +39,11 @@
     "vitest": "^2.1.4"
   },
   "lint-staged": {
-    "src/**/*.{js,ts}": [
+    "src/**/*.{js,ts,tsx}": [
+      "npm run lint:fix",
+      "npm run format"
+    ],
+    "backend/**/*.{js,ts,tsx}": [
       "npm run lint:fix",
       "npm run format"
     ]
