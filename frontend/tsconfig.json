@@ -10,6 +10,6 @@
     "skipLibCheck": true,
     "types": ["vitest"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "backend/src/**/*", "tests/**/*.*", "vite.config.*", "vitest.config.*", "tests/ui.test.tsx"],
+  "include": ["frontend/src/**/*.ts", "frontend/src/**/*.tsx", "backend/src/**/*", "frontend/tests/**/*.*", "vite.config.*", "vitest.config.*", "frontend/tests/ui.test.tsx", "frontend/vitest.config.ts", "frontend/vite.config.js"],
   "exclude": ["node_modules", "dist"]
 }
