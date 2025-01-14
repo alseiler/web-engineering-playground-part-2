@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "ES2016",
     "module": "commonjs",
     "jsx": "react",
-    "lib": ["es2017", "dom"],
+    "lib": ["ES2017", "dom"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "types": ["vitest"]
   },
-  "include": ["frontend/src/**/*.ts", "frontend/src/**/*.tsx", "backend/src/**/*", "frontend/tests/**/*.*", "vite.config.*", "vitest.config.*", "frontend/tests/ui.test.tsx", "frontend/vitest.config.ts", "frontend/vite.config.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "tests/**/*",
+    "vite.config.*",
+    "vitest.config.*"
+  ],
   "exclude": ["node_modules", "dist"]
 }
