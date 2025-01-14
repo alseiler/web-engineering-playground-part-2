@@ -440,6 +440,38 @@ Submit your coding repository link in Moodle. Send me an invitation to your repo
 > 
 > GitLab: leon.freudenthaler@fh-campuswien.ac.at
 
+## How to Start the Services
+
+### Starting the Frontend
+
+**Ensure you are in the root directory of the project.**
+
+**1. Install dependencies:**
+``` bash
+npm install
+```
+**2. Start the development server:**
+``` bash
+npm run dev
+```
+The frontend will run on http://localhost:5173.
+
+### Starting the Backend
+
+**Navigate to the backend directory using `cd backend`.**
+
+**1. Install dependencies:**
+``` bash
+npm install
+```
+**2. Start the backend service:**
+``` bash
+npm start
+```
+The backend will run on http://localhost:5000. 
+Verify it by visiting: http://localhost:5000/api/bears
+
+
 ## 5. Migrate to a Frontend Framework (10 pts.)
 In this playground you will migrate your application to a frontend framework of your choice.
 
