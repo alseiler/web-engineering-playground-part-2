@@ -17,11 +17,34 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: npm ci
+      # --- BACKEND ---
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm ci
 
-      - name: Run Lint
-        run: npm run lint
+      - name: Lint backend
+        run: |
+          cd backend
+          npm run lint
 
-      - name: Run Tests
-        run: npm run test
+      - name: Test backend
+        run: |
+          cd backend
+          npm run test
+
+      # --- FRONTEND ---
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Lint frontend
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Test frontend
+        run: |
+          cd frontend
+          npm run test

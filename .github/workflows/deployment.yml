@@ -17,20 +17,50 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: npm ci
+      # --- BACKEND ---
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm ci
 
-      - name: Run Lint
-        run: npm run lint
+      - name: Lint backend
+        run: |
+          cd backend
+          npm run lint
 
-      - name: Run Tests
-        run: npm run test
+      - name: Test backend
+        run: |
+          cd backend
+          npm run test
 
-      - name: Build Application
-        run: npm run build
+      - name: Build backend (if your backend has a build step)
+        run: |
+          cd backend
+          npm run build
+
+      # --- FRONTEND ---
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Lint frontend
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Test frontend
+        run: |
+          cd frontend
+          npm run test
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./frontend/dist
