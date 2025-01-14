@@ -7,8 +7,9 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["vitest"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "backend/src/**/*", "vite.config.*", "vitest.config.*"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "backend/src/**/*", "tests/**/*.*", "vite.config.*", "vitest.config.*", "tests/ui.test.tsx"],
   "exclude": ["node_modules", "dist"]
 }

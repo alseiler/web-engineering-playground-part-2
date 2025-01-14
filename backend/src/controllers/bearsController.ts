@@ -7,8 +7,8 @@ interface Bear {
   range: string;
 }
 
-// Helper function to fetch the image URL
-async function fetchImageUrl(fileName: string): Promise<string> {
+// Export fetchImageUrl function
+export async function fetchImageUrl(fileName: string): Promise<string> {
   const baseUrl = 'https://en.wikipedia.org/w/api.php';
   const params = {
     action: 'query',
@@ -22,15 +22,14 @@ async function fetchImageUrl(fileName: string): Promise<string> {
   const url = `${baseUrl}?${new URLSearchParams(params).toString()}`;
   const response = await axios.get(url);
 
-  // Wikipedia returns the image information in a nested structure
   const pages = response.data.query.pages as Record<
     string,
     { imageinfo?: Array<{ url: string }> }
   >;
-  const page = Object.values(pages)[0]; // Access the first page object
+  const page = Object.values(pages)[0];
 
   if (page.imageinfo != null && page.imageinfo.length > 0) {
-    return page.imageinfo[0].url; // Return the direct URL of the image
+    return page.imageinfo[0].url;
   } else {
     throw new Error(`Image not found for file: ${fileName}`);
   }
