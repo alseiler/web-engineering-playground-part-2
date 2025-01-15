@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      # The final stage in Dockerfile is "prod" stage by default
+    container_name: frontend-prod
+    ports:
+      - "8080:80"  # Expose port 80 from container to 8080 on host
+    # no volumes needed in production
+
+  backend:
+    build:
+      context: ./backend
+      # The final stage is "prod" stage
+    container_name: backend-prod
+    ports:
+      - "5000:5000"
+    # no volumes in production
