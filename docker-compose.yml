@@ -1,24 +1,28 @@
-version: "3.8"
+version: "3.9"
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-      target: dev      # Use the dev stage in Dockerfile
-    container_name: frontend-dev
-    ports:
-      - "5173:5173"    # Host:Container
-    volumes:
-      - ./frontend:/app  # So changes on your host reflect inside container
-    command: npm run dev
-
   backend:
+    container_name: backend-dev
     build:
       context: ./backend
+      dockerfile: Dockerfile
       target: dev
-    container_name: backend-dev
-    ports:
-      - "5000:5000"
     volumes:
       - ./backend:/app
-    command: npm run start
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+
+  frontend:
+    container_name: frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev    # Use the development stage
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
